@@ -1,7 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Homepage{% endblock %}
 
 {% block body %}
-
+    <div class="mb-3">
+        <a href="{{ path('file_upload') }}">Upload new file</a>
+    </div>
+    {% if files %}
+        {% for file in files %}
+            <div class="mb-3">
+                <a href="{{ path('file_show', {'id': file.id}) }}">{{ file.name }}</a>
+            </div>
+        {% endfor %}
+    {% endif %}
 {% endblock %}

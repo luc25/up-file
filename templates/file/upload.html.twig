@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profile{% endblock %}
+{% block title %}Upload{% endblock %}
 
 {% block body %}
     {% for flash_error in app.flashes('verify_email_error') %}
@@ -12,11 +12,10 @@
     {{ form_errors(form) }}
 
     {{ form_start(form) }}
-        {{ form_row(form.email, { 'value': app.user.email }) }}
-        {{ form_row(form.plainPassword, {
-            label: 'Password'
-        }) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.file) }}
 
-        <button type="submit" class="btn">Update</button>
+        <button type="submit" class="btn">Upload</button>
     {{ form_end(form) }}
 {% endblock %}

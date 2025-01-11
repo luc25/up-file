@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\UserFormType;
+use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +17,7 @@ class UserController extends AbstractController
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        $form = $this->createForm(UserFormType::class, $user, ['method' => Request::METHOD_PUT]);
+        $form = $this->createForm(UserType::class, $user, ['method' => Request::METHOD_PUT]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

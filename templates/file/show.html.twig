@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% if file %}{{ file.name }}{% endif %}{% endblock %}
+
+{% block body %}
+    {% if file %}
+        <div class="mb-3">
+            {{ file.name }}
+        </div>
+        <div class="mb-3">
+            {{ file.description }}
+        </div>
+        <div class="mb-3">
+            <a href="{{ path('file_edit', {'id': file.id}) }}">Update</a>
+        </div>
+        <div class="mb-3">
+            {{ form_start(delete_form) }}
+                <button type="submit" class="btn">Delete</button>
+            {{ form_end(delete_form) }}
+        </div>
+    {% endif %}
+{% endblock %}
