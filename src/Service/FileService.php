@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\File;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -29,5 +30,14 @@ class FileService
         $file->setType($uploadedFile->getMimeType());
 
         return $file;
+    }
+
+    public function delete(File $file): void
+    {
+        $filesystem = new Filesystem();
+
+        if ($filesystem->exists($this->filesDirectory.'/'.$file->getPath())) {
+            $filesystem->remove($this->filesDirectory.'/'.$file->getPath());
+        }
     }
 }

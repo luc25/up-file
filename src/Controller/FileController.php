@@ -89,7 +89,7 @@ class FileController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'delete', methods: ['DELETE'])]
-    public function delete(EntityManagerInterface $em, File $file): Response
+    public function delete(EntityManagerInterface $em, FileService $fileService, File $file): Response
     {
         $user = $this->getUser();
 
@@ -99,6 +99,8 @@ class FileController extends AbstractController
 
         $em->remove($file);
         $em->flush();
+
+        $fileService->delete($file);
 
         return $this->redirectToRoute('homepage', ['id' => $file->getId()]);
     }

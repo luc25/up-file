@@ -20,7 +20,7 @@ class File
     #[ORM\Column(type: 'string', length: 180)]
     private ?string $description = null;
 
-    #[ORM\Column(type: 'smallint')]
+    #[ORM\Column(type: 'string', length: 180)]
     private string $type;
 
     #[ORM\Column(type: 'string', length: 180)]
@@ -58,12 +58,12 @@ class File
         return $this;
     }
 
-    public function getType(): ?int
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function setType(int $type): static
+    public function setType(string $type): static
     {
         $this->type = $type;
 
