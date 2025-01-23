@@ -26,7 +26,7 @@ class File
     #[ORM\Column(type: 'string', length: 180)]
     private string $path;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'files')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     private User $user;
 
     public function getId(): ?int

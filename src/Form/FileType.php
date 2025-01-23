@@ -23,7 +23,7 @@ class FileType extends AbstractType
                 'required' => $options['file_required'],
                 'constraints' => [
                     new FileConstraint([
-                        'maxSize' => '1024k',
+                        'maxSize' => '2048k',
                         'mimeTypes' => MimeTypes::getConstants(),
                         'mimeTypesMessage' => 'This file type is not allowed.',
                     ])

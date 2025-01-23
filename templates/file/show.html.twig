@@ -10,11 +10,15 @@
         <div class="mb-3">
             {{ file.entity.description }}
         </div>
-        {% if file.entity.type in constant('App\\Constants\\MimeTypes::DISPLAYABLE_TYPES') %}
-            <div class="mb-3">
+        <div class="mb-3">
+            {% if file.entity.type in constant('App\\Constants\\MimeTypes::IMAGE_TYPES') %}
                 <img src="data:{{ file.entity.type }};base64,{{ file.s3_file }}" alt="{{ file.entity.name }}">
-            </div>
-        {% endif %}
+            {% elseif file.entity.type in constant('App\\Constants\\MimeTypes::VIDEO_TYPES') %}
+                <video width="800" height="500" controls>
+                    <source src="data:{{ file.entity.type }};base64,{{ file.s3_file }}" type="video/mp4">
+                </video>
+            {% endif %}
+        </div>
         <div class="mb-3">
             <a href="{{ path('file_edit', {'id': file.entity.id}) }}">Update</a>
         </div>

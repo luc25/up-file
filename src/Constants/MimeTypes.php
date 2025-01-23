@@ -27,10 +27,16 @@ class MimeTypes
     public const VIDEO_MPEG = 'video/mpeg';
     public const VIDEO_OGG = 'video/ogg';
 
-    public const DISPLAYABLE_TYPES = [
+    public const IMAGE_TYPES = [
         self::GIF,
         self::JPEG,
         self::PNG,
+    ];
+
+    public const VIDEO_TYPES = [
+        self::MP4,
+        self::VIDEO_MPEG,
+        self::VIDEO_OGG,
     ];
 
     public static function getConstants(): array

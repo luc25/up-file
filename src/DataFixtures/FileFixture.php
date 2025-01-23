@@ -41,6 +41,14 @@ class FileFixture extends Fixture implements DependentFixtureInterface
         $picture3->setUser($this->getReference(UserFixtures::USER_REFERENCE, User::class));
         $manager->persist($picture3);
 
+        $picture4 = new File();
+        $picture4->setName('Bunny');
+        $picture4->setDescription('A video of a bunny waking up');
+        $picture4->setType(MimeTypes::JPEG);
+        $picture4->setPath('Bunny-679208c9a35e6.mp4');
+        $picture4->setUser($this->getReference(UserFixtures::USER_REFERENCE, User::class));
+        $manager->persist($picture4);
+
         $manager->flush();
     }
 
