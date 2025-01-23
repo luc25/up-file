@@ -21,7 +21,7 @@ class FileFixture extends Fixture implements DependentFixtureInterface
         $picture1->setName('Lion');
         $picture1->setDescription('Picture of a lion');
         $picture1->setType(MimeTypes::JPEG);
-        $picture1->setPath('lion.jpg');
+        $picture1->setPath('lion-6791ff5095433.jpg');
         $picture1->setUser($this->getReference(UserFixtures::USER_REFERENCE, User::class));
         $manager->persist($picture1);
 
@@ -29,7 +29,7 @@ class FileFixture extends Fixture implements DependentFixtureInterface
         $picture2->setName('Lion cub');
         $picture2->setDescription('Picture of a lion cub');
         $picture2->setType(MimeTypes::JPEG);
-        $picture2->setPath('lion-cub.jpg');
+        $picture2->setPath('lion-cub-6791ff6632af7.jpg');
         $picture2->setUser($this->getReference(UserFixtures::USER_REFERENCE, User::class));
         $manager->persist($picture2);
 
@@ -37,7 +37,7 @@ class FileFixture extends Fixture implements DependentFixtureInterface
         $picture3->setName('Black lion');
         $picture3->setDescription('Picture of a black lion');
         $picture3->setType(MimeTypes::JPEG);
-        $picture3->setPath('black-lion.jpg');
+        $picture3->setPath('black-lion-6791ff7c753f4.jpg');
         $picture3->setUser($this->getReference(UserFixtures::USER_REFERENCE, User::class));
         $manager->persist($picture3);
 

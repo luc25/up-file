@@ -9,7 +9,7 @@
     {% if files %}
         {% for file in files %}
             <div class="mb-3">
-                <a href="{{ path('file_show', {'id': file.id}) }}">{{ file.name }}</a>
+                <a href="{{ path('file_show', {'id': file.entity.id}) }}">{{ file.entity.name }}</a>
             </div>
         {% endfor %}
     {% endif %}

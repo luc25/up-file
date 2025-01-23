@@ -1,17 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% if file %}{{ file.name }}{% endif %}{% endblock %}
+{% block title %}{% if file %}{{ file.entity.name }}{% endif %}{% endblock %}
 
 {% block body %}
     {% if file %}
         <div class="mb-3">
-            {{ file.name }}
+            {{ file.entity.name }}
         </div>
         <div class="mb-3">
-            {{ file.description }}
+            {{ file.entity.description }}
         </div>
+        {% if file.entity.type in constant('App\\Constants\\MimeTypes::DISPLAYABLE_TYPES') %}
+            <div class="mb-3">
+                <img src="data:{{ file.entity.type }};base64,{{ file.s3_file }}" alt="{{ file.entity.name }}">
+            </div>
+        {% endif %}
         <div class="mb-3">
-            <a href="{{ path('file_edit', {'id': file.id}) }}">Update</a>
+            <a href="{{ path('file_edit', {'id': file.entity.id}) }}">Update</a>
         </div>
         <div class="mb-3">
             {{ form_start(delete_form) }}

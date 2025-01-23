@@ -13,24 +13,26 @@
     </head>
     <body>
         {% block header %}
-            {% if app.user %}
-                {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
-                {% if currentPath != path('homepage') %}
+            <section id="header">
+                {% if app.user %}
+                    {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+                    {% if currentPath != path('homepage') %}
+                        <div class="mb-3">
+                            <a href="{{ path('homepage') }}">Homepage</a>
+                        </div>
+                    {% endif %}
+                    {% if currentPath != path('user_profile') %}
+                        <div class="mb-3">
+                            <a href="{{ path('user_profile') }}">Profile</a>
+                        </div>
+                    {% endif %}
                     <div class="mb-3">
-                        <a href="{{ path('homepage') }}">Homepage</a>
+                        <a href="{{ path('logout') }}">Logout</a>
                     </div>
                 {% endif %}
-                {% if currentPath != path('user_profile') %}
-                    <div class="mb-3">
-                        <a href="{{ path('user_profile') }}">Profile</a>
-                    </div>
-                {% endif %}
-                <div class="mb-3">
-                    <a href="{{ path('logout') }}">Logout</a>
-                </div>
-            {% endif %}
+            </section>
         {% endblock %}
 
-        {% block body %}{% endblock %}
+        <section id="body">{% block body %}{% endblock %}</section>
     </body>
 </html>

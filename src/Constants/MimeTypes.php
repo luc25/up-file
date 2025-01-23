@@ -27,6 +27,12 @@ class MimeTypes
     public const VIDEO_MPEG = 'video/mpeg';
     public const VIDEO_OGG = 'video/ogg';
 
+    public const DISPLAYABLE_TYPES = [
+        self::GIF,
+        self::JPEG,
+        self::PNG,
+    ];
+
     public static function getConstants(): array
     {
         $reflectionClass = new \ReflectionClass(MimeTypes::class);

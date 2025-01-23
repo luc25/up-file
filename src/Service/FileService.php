@@ -3,16 +3,21 @@
 namespace App\Service;
 
 use App\Entity\File;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\Filesystem\Filesystem;
+use App\Repository\FileRepository;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FileService
 {
-    public function __construct(private SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/public/uploads/files')] private $filesDirectory)
-    {}
+    public function __construct(private SluggerInterface $slugger, private FileRepository $fileRepo, private AWSS3Service $awsS3Service) {}
+
+    public function getList(): array
+    {
+        $files = $this->fileRepo->findBy([], [], 10, 0);
+
+        return $this->awsS3Service->getFiles($files);
+    }
 
     public function upload(UploadedFile $uploadedFile, File $file): File
     {
@@ -21,7 +26,7 @@ class FileService
         $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
 
         try {
-            $uploadedFile->move($this->filesDirectory, $newFilename);
+            $this->awsS3Service->upload($uploadedFile->getPathname(), $newFilename);
         } catch (FileException $e) {
             throw new FileException($e);
         }
@@ -30,14 +35,5 @@ class FileService
         $file->setType($uploadedFile->getMimeType());
 
         return $file;
-    }
-
-    public function delete(File $file): void
-    {
-        $filesystem = new Filesystem();
-
-        if ($filesystem->exists($this->filesDirectory.'/'.$file->getPath())) {
-            $filesystem->remove($this->filesDirectory.'/'.$file->getPath());
-        }
     }
 }

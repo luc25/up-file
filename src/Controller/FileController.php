@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Constants\Roles;
 use App\Entity\File;
 use App\Form\FileType;
+use App\Service\AWSS3Service;
 use App\Service\FileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,8 +18,10 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/file', name: 'file_')]
 class FileController extends AbstractController
 {
+    public function __construct(private FileService $fileService, private AWSS3Service $awsS3Service) {}
+
     #[Route('/upload', name: 'upload', methods: ['GET', 'POST'])]
-    public function upload(Request $request, EntityManagerInterface $em, FileService $fileService): Response
+    public function upload(Request $request, EntityManagerInterface $em): Response
     {
         $file = new File();
         $file->setUser($this->getUser());
@@ -31,7 +34,7 @@ class FileController extends AbstractController
             $uploadedFile = $form->get('file')->getData();
 
             if ($uploadedFile) {
-                $fileService->upload($uploadedFile, $file);
+                $this->fileService->upload($uploadedFile, $file);
             }
 
             $em->persist($file);
@@ -57,11 +60,11 @@ class FileController extends AbstractController
             ->setMethod('DELETE')
             ->getForm();
 
-        return $this->render('file/show.html.twig', ['file' => $file, 'delete_form' => $deleteForm]);
+        return $this->render('file/show.html.twig', ['file' => $this->awsS3Service->getFile($file), 'delete_form' => $deleteForm]);
     }
 
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'PUT'])]
-    public function edit(Request $request, EntityManagerInterface $em, FileService $fileService, File $file): Response
+    public function edit(Request $request, EntityManagerInterface $em, File $file): Response
     {
         $user = $this->getUser();
 
@@ -77,7 +80,7 @@ class FileController extends AbstractController
             $uploadedFile = $form->get('file')->getData();
 
             if ($uploadedFile) {
-                $fileService->upload($uploadedFile, $file);
+                $this->fileService->upload($uploadedFile, $file);
             }
 
             $em->flush();
@@ -89,7 +92,7 @@ class FileController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'delete', methods: ['DELETE'])]
-    public function delete(EntityManagerInterface $em, FileService $fileService, File $file): Response
+    public function delete(EntityManagerInterface $em, File $file): Response
     {
         $user = $this->getUser();
 
@@ -97,10 +100,9 @@ class FileController extends AbstractController
             throw new AccessDeniedHttpException();
         }
 
+        $this->awsS3Service->deleteFile($file->getPath());
         $em->remove($file);
         $em->flush();
-
-        $fileService->delete($file);
 
         return $this->redirectToRoute('homepage', ['id' => $file->getId()]);
     }

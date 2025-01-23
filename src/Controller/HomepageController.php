@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\FileRepository;
+use App\Service\FileService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -10,8 +10,8 @@ use Symfony\Component\Routing\Attribute\Route;
 class HomepageController extends AbstractController
 {
     #[Route('/', name: 'homepage', methods: ['GET'])]
-    public function homepage(FileRepository $fileRepository): Response
+    public function homepage(FileService $fileService): Response
     {
-        return $this->render('homepage.html.twig', ['files' => $fileRepository->findAll()]);
+        return $this->render('homepage.html.twig', ['files' => $fileService->getList()]);
     }
 }
